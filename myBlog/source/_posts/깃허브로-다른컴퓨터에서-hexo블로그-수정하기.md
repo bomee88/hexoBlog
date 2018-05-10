@@ -44,14 +44,71 @@ $hexo deploy로는 그 정적파일들을 깃에 올리기 위해 '.deploy_git'�
 그렇기때문에 다른 컴퓨터에서 같은 환경으로 작업하기 위해서는 hexo와 deployer를 모두 담고있는 myblog자체를 새로운 레포지토리로 생성해서 올려야 하는 것이다.
 설명이 이해가 간다면 이제 새로운 레포지토리를 만들어보자.
 
-(이 뒤는 집에가서 해봐야지)
+<img src="/img/post/20180510-1.png" alt="새 레포지토리생성">
 
-git clone [주소입력]	//다운받고 싶은 곳을 클론하기
-cd [주소파일]		//주소파일생성된 곳으로 들어가기
-touch Readme.txt 	//시험용 리드미 파일 생성
-git status		//새로 생성된 파일 상태 확인
-git add Readme.txt 	//추가할 파일 깃에게 알리기
-git commit -m "add Readme.txt"   //커밋작성하기
-git remote add origin https://github.com/username/myproject.git //로컬과 원격 저장소를 연결 
-git remote -v 		//연동상태 확인하기
-git push origin master	//깃허브로 푸쉬하기
+위와 같이 호스팅될 레포지토리(기존에 만들어놓았던 깃허브 주소의 레포지토리 "bomee88.github.io")와 헥소자체를 올릴 레포지토리(hexoBlog)를 각각 만들었다면, 이제 hexoBlog에 내 로컬상의 myBlog를 push 해야한다. 
+방법은 <a href="#gitbash">맨 아래의 기본 github명령어</a>들을 활용하면되고 아주 간단하다.
+
+
+위를 참고하여 활용하면 로컬와 원격저장소를 먼저 연결해야한다. 
+myBlog 폴더안에서 우클릭하여 gitbash를 실행하고 일단 연동상태부터 확인해보자.
+연동상태가 당연히 기존의 레포지토리로 설정되어 있을 것이다. 이제 이걸 새로운 hexoBlog주소로 변경해놓는다.
+
+``` gitbash gitbash_연동/푸쉬하기
+$ git remote -v //현재 연동상태 확인
+$ git remote add origin https://github.com/bomee88/hexoBlog.git //헥소원본 레포지와 연동으로 변경
+$ git add . //전체를 깃에 올린다고 알림
+$ git commit -m "add all hexo file" //커밋작성
+$ git push origin master
+
+```
+위와 같은 방식으로 푸시한다.
+일단 우리의 모든 헥소파일은 웹서버에 올라갔고 이제 다른 피씨에서 클론해서 수정하는 건 상대의 몫이다.
+불쌍하니.. 상대의 몫도 해결해보도록하자.
+
+## 두번째 컴퓨터에서 해야할 사항
+자 이제 다른 컴퓨터로 넘어왔다.
+그게 내 노트북이 될 수도있고, 다른 작업자가 될 수도 있겠다. 여하간 그 컴퓨터에도 깃허브와 헥소를 할 수 있는 환경인지, 그렇지 않다면 처음부터 셋팅을 해줘야한다.
+깃에서 git bash를 받는 방법과 hexo를 위한 node.js를 받아 깃을 사용할수 있는 환경을 만들고 아무폴더에서나 우클릭으로 일단 gitbash를 실행한다. 그리고 우리의 hexoBlog를 클론해보도록 하자.
+
+``` gitbash gitbash_다운로드(클론)
+$ git config --global user.name  //깃에게 내 아이디 알려주기
+$ git config --global user.email  //깃에게 내 이메일 알려주기
+$ git clone [주소입력]		//다운받고 싶은 곳을 클론하기
+$ cd [주소파일]		    	//주소파일생성된 곳으로 들어가기
+$ touch Readme.txt 	    	//시험용 리드미 파일 생성
+$ git status		    	//새로 생성된 파일 상태 확인
+$ git add Readme.txt 		//추가할 파일 깃에게 알리기(권장)
+$ git add . 	        	//추가된 전체를 깃에게 알리기
+$ git commit -m "add Readme.txt"   //커밋작성하기
+$ git remote add origin https://github.com/username/myproject.git //로컬과 원격 저장소를 연결 
+$ git remote -v 			//연동상태 확인하기
+$ git push origin master	//깃허브로 푸쉬하기
+```
+
+
+<div id="gitbash">
+
+``` gitbash gitbash_git기본명령어
+/* git 파일 및 폴더 다운로드-업로드 */
+
+$ git clone [주소입력]		//다운받고 싶은 곳을 클론하기
+$ cd [주소파일]		    	//주소파일생성된 곳으로 들어가기
+$ touch Readme.txt 	    	//시험용 리드미 파일 생성
+$ git status		    	//새로 생성된 파일 상태 확인
+$ git add Readme.txt 		//추가할 파일 깃에게 알리기(권장)
+$ git add . 	        	//추가된 전체를 깃에게 알리기
+$ git commit -m "add Readme.txt"   //커밋작성하기
+$ git remote add origin https://github.com/username/myproject.git //로컬과 원격 저장소를 연결 
+$ git remote -v 			//연동상태 확인하기
+$ git push origin master	//깃허브로 푸쉬하기
+
+/*git 파일 및 폴더 삭제*/
+
+$ git rm -r [파일 혹은 폴더] //로컬, 웹 둘다 삭제
+$ git rm -r --cached [파일 혹은 폴더] //웹만 삭제
+$ git commit -m "수정사항"
+$ git push origin master
+```
+
+</div>
